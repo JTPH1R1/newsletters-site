@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business News | Outreach Media Group</title>
+  <meta name="description" content="Outreach Media Group — multi-source synthesis newsletters covering business news, socioeconomics, business growth, and personal development.">
+  <meta property="og:title" content="Business News | Outreach Media Group">
+  <meta property="og:description" content="Curated intelligence newsletters for corporations and professionals.">
+  <meta property="og:image" content="https://readomg.netlify.app/assets/og-default.png">
+  <meta property="og:url" content="https://readomg.netlify.app/category/business-news.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #F0F0F0;
+      color: #1A1A1A;
+    }
+
+    /* NAV */
+    .nav {
+      background: #1A1A1A;
+      padding: 0 20px;
+      border-bottom: 3px solid #C41E1E;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo img { height: 28px; }
+    .nav-links { display: flex; list-style: none; }
+    .nav-links a {
+      display: block; padding: 0 14px; height: 56px; line-height: 56px;
+      font-size: 11px; font-weight: bold; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.7); text-decoration: none;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #fff; background: #C41E1E; }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* HERO BANNER */
+    .site-hero {
+      background: #1A1A1A;
+      padding: 56px 20px 48px;
+      text-align: center;
+      border-bottom: 5px solid #C41E1E;
+    }
+    .site-hero-logo img { height: 48px; margin-bottom: 20px; }
+    .site-hero h1 {
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 28px; font-weight: 900;
+      color: #FFFFFF; margin-bottom: 12px;
+    }
+    .site-hero p {
+      font-size: 15px; color: rgba(255,255,255,0.7);
+      max-width: 560px; margin: 0 auto; line-height: 1.6;
+    }
+    .site-stats {
+      display: flex; justify-content: center; gap: 40px;
+      margin-top: 28px; flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: Arial Black, sans-serif; font-size: 28px;
+      font-weight: 900; color: #C41E1E;
+    }
+    .stat-label { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* CONTENT */
+    .content { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+    /* CATEGORY SECTION */
+    .category-section { margin-bottom: 48px; }
+    .category-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 3px solid #C41E1E;
+    }
+    .category-title {
+      font-family: Arial Black, sans-serif; font-size: 14px; font-weight: 900;
+      letter-spacing: 0.12em; text-transform: uppercase; color: #1A1A1A;
+    }
+    .category-view-all {
+      font-size: 11px; font-weight: bold; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #C41E1E; text-decoration: none;
+    }
+    .category-view-all:hover { text-decoration: underline; }
+
+    /* NEWSLETTER CARDS */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #FFFFFF;
+      border-top: 4px solid #C41E1E;
+      padding: 22px;
+      display: flex; flex-direction: column;
+    }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .card-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .card-category {
+      font-size: 9px; font-weight: bold; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #fff;
+      background: #C41E1E; padding: 3px 8px;
+    }
+    .card-date { font-size: 11px; color: #999; }
+    .card-title {
+      font-family: Arial Black, sans-serif; font-size: 16px; font-weight: 900;
+      color: #1A1A1A; line-height: 1.3; margin-bottom: 10px;
+    }
+    .card-subtitle {
+      font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 18px; flex: 1;
+    }
+    .card-read {
+      display: inline-block; background: #C41E1E; color: #fff;
+      font-size: 11px; font-weight: bold; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 8px 18px; text-decoration: none;
+      align-self: flex-start; border: 2px solid #1A1A1A;
+    }
+    .card-read:hover { background: #1A1A1A; }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 32px; text-align: center;
+      background: #fff; color: #999; font-size: 14px;
+      border: 1px dashed #D0D0D0;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #1A1A1A; padding: 32px 20px; text-align: center;
+      border-top: 3px solid #C41E1E;
+    }
+    .footer img { height: 28px; margin-bottom: 12px; }
+    .footer p { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://readomg.netlify.app">
+      <img src="https://readomg.netlify.app/assets/logo-white.png" alt="Outreach Media Group">
+    </a>
+    <ul class="nav-links">
+      <li><a href="https://readomg.netlify.app/category/business-news.html" class="active">Business News</a></li>
+      <li><a href="https://readomg.netlify.app/category/socioeconomics.html" >Socioeconomics</a></li>
+      <li><a href="https://readomg.netlify.app/category/business-growth.html" >Business Growth</a></li>
+      <li><a href="https://readomg.netlify.app/category/personal-development.html" >Personal Dev</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="site-hero">
+  <div class="site-hero-logo">
+    <img src="https://readomg.netlify.app/assets/logo-white.png" alt="Outreach Media Group">
+  </div>
+  <h1>Business News Newsletters</h1>
+  <p>Breaking business news synthesised from 20+ sources into one authoritative read.</p>
+  <div class="site-stats">
+    <div class="stat-item">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Newsletters Published</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Content Categories</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Sources Per Newsletter</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  
+  <div class="category-section">
+    <div class="category-header">
+      <span class="category-title">Business News</span>
+      
+      <a class="category-view-all" href="https://readomg.netlify.app/category/business-news.html">View all &rarr;</a>
+      
+    </div>
+
+    
+    <div class="cards-grid">
+      
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-category" style="background:#C41E1E">Business News</span>
+          <span class="card-date">March 31, 2026</span>
+        </div>
+        <div class="card-title">Same Vision, Opposite Results: What Rwanda Got Right</div>
+        <div class="card-subtitle">Two nations launched bold 2020 development plans — only one delivered. Here&#39;s the blueprint that made the difference.</div>
+        <a class="card-read" href="https://readomg.netlify.app/newsletters/business-news/2026-03-31-same-vision-opposite-results-what-rwanda-got-right.html">Read Now &rarr;</a>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div class="category-section">
+    <div class="category-header">
+      <span class="category-title">Socioeconomics</span>
+      
+    </div>
+
+    
+    <div class="empty-state">First newsletter in this category coming soon.</div>
+    
+  </div>
+  
+  <div class="category-section">
+    <div class="category-header">
+      <span class="category-title">Business Growth</span>
+      
+    </div>
+
+    
+    <div class="empty-state">First newsletter in this category coming soon.</div>
+    
+  </div>
+  
+  <div class="category-section">
+    <div class="category-header">
+      <span class="category-title">Personal Development</span>
+      
+    </div>
+
+    
+    <div class="empty-state">First newsletter in this category coming soon.</div>
+    
+  </div>
+  
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <img src="https://readomg.netlify.app/assets/logo-white.png" alt="Outreach Media Group">
+  <p>&copy; Outreach Media Group. All rights reserved.</p>
+  <p>Multi-source synthesis newsletters for corporations and professionals.</p>
+</div>
+
+</body>
+</html>
