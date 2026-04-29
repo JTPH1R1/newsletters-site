@@ -1,0 +1,251 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const all = await getCollection('newsletters');
+const sorted = all.sort((a, b) => b.data.edition - a.data.edition);
+const latest = sorted[0];
+const archive = sorted.slice(1);
+
+function pillClass(tag: string = '') {
+  const t = tag.toLowerCase();
+  if (t.includes('economy') || t.includes('finance') || t.includes('agri')) return 'bg-eco';
+  if (t.includes('infra')) return 'bg-inf';
+  if (t.includes('africa') || t.includes('fintech')) return 'bg-afr';
+  if (t.includes('life') || t.includes('wellness')) return 'bg-lif';
+  if (t.includes('tech') || t.includes('ai')) return 'bg-tec';
+  return 'bg-glo';
+}
+
+function accentColor(tag: string = '') {
+  const t = tag.toLowerCase();
+  if (t.includes('economy') || t.includes('finance') || t.includes('agri')) return '#1DB864';
+  if (t.includes('infra')) return '#2A7AE0';
+  if (t.includes('africa') || t.includes('fintech')) return '#7B35D6';
+  if (t.includes('life') || t.includes('wellness')) return '#E84A20';
+  if (t.includes('tech') || t.includes('ai')) return '#5B35D6';
+  return '#E8A020';
+}
+---
+
+<BaseLayout title="The Flame of Fortune — Daily Intelligence">
+<style>
+  :root{--page:#F7F4EF;--card:#fff;--ink:#1A1A1A;--muted:#6A6560;--rule:#E0DBD3;--flame:#D4521A;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{background:var(--page);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;}
+
+  .mast{background:var(--card);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50;}
+  .mast-top{max-width:1200px;margin:0 auto;padding:12px clamp(1rem,4vw,2rem);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);}
+  .brand{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+  .brand em{color:var(--flame);font-style:normal;}
+  .mast-right{text-align:right;}
+  .mast-date{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.07em;display:block;}
+  .mast-tag{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--flame);letter-spacing:.14em;text-transform:uppercase;}
+  .mast-nav{max-width:1200px;margin:0 auto;padding:0 clamp(1rem,4vw,2rem);display:flex;gap:0;overflow-x:auto;}
+  .mnav{font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-right:1px solid var(--rule);white-space:nowrap;}
+  .m-eco{color:#0F6B38;background:#F0FAF4;} .m-inf{color:#0C4A8A;background:#EDF4FC;}
+  .m-afr{color:#5B1A94;background:#F4EEFD;} .m-lif{color:#A0300A;background:#FEF1EC;}
+  .m-tec{color:#083E7C;background:#E8F2FC;} .m-glo{color:#7A4A08;background:#FDF6E8;}
+
+  .ticker{background:#1A1A1A;padding:5px clamp(1rem,4vw,2rem);display:flex;gap:2rem;overflow-x:auto;}
+  .tick{font-family:'IBM Plex Mono',monospace;font-size:.62rem;display:flex;gap:.45rem;align-items:center;white-space:nowrap;}
+  .tl{color:#666;} .tv{color:#F0EDE8;font-weight:500;} .tu{color:#1DB864;} .td{color:#E84A20;}
+
+  .pill{font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;display:inline-block;}
+  .bg-eco{background:#E8F7EE;color:#0A5C30;} .bg-inf{background:#E6F0FC;color:#0A3A7A;}
+  .bg-afr{background:#F0EAFD;color:#4A1580;} .bg-lif{background:#FDEEE8;color:#8C2A08;}
+  .bg-tec{background:#E8F0FC;color:#0A3070;} .bg-glo{background:#FDF5E6;color:#704008;}
+
+  .hero-wrap{max-width:1200px;margin:0 auto;padding:1.5rem clamp(1rem,4vw,2rem) 1rem;}
+  .hero-grid{display:grid;grid-template-columns:3fr 2fr;gap:1px;background:var(--rule);}
+  .hero-main{background:var(--card);display:flex;flex-direction:column;text-decoration:none;color:inherit;}
+  .hero-img{width:100%;height:240px;object-fit:cover;display:block;}
+  .hero-body{padding:1.5rem;flex:1;}
+  .hero-flag{display:flex;gap:.6rem;align-items:center;margin-bottom:.8rem;}
+  .hero-src{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);}
+  .hero-h{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;line-height:1.18;color:var(--ink);margin-bottom:.5rem;}
+  .hero-theme{font-family:'Source Serif 4',serif;font-style:italic;font-size:.88rem;color:var(--flame);margin-bottom:.7rem;line-height:1.45;}
+  .hero-ex{font-family:'Source Serif 4',serif;font-size:.84rem;color:var(--muted);line-height:1.7;margin-bottom:.9rem;}
+  .hero-meta{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);display:flex;gap:1rem;align-items:center;padding-top:.8rem;border-top:1px solid var(--rule);}
+  .read-link{color:var(--flame);font-weight:500;}
+  .hero-main:hover .hero-h{text-decoration:underline;}
+
+  .sidebar{background:var(--rule);display:flex;flex-direction:column;gap:1px;}
+  .sc{background:var(--card);padding:1.1rem;flex:1;border-top:3px solid transparent;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.4rem;transition:background .18s;}
+  .sc:hover{background:#FAFAF7;}
+  .sc-img{width:100%;height:100px;object-fit:cover;display:block;margin-bottom:.5rem;}
+  .sc-cat{font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+  .sc-eco{border-top-color:#1DB864;} .cc-eco{color:#0A5C30;}
+  .sc-inf{border-top-color:#2A7AE0;} .cc-inf{color:#0A3A7A;}
+  .sc-afr{border-top-color:#7B35D6;} .cc-afr{color:#4A1580;}
+  .sc-glo{border-top-color:#E8A020;} .cc-glo{color:#704008;}
+  .sc-h{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;line-height:1.3;color:var(--ink);}
+  .sc-ex{font-family:'Source Serif 4',serif;font-size:.75rem;color:var(--muted);line-height:1.5;}
+
+  .sec-wrap{max-width:1200px;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 1.5rem;}
+  .sec-label{font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:.8rem 0 .6rem;border-top:2px solid var(--ink);margin-bottom:1px;display:block;}
+
+  .arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--rule);}
+  .ac{background:var(--card);text-decoration:none;color:inherit;display:block;transition:background .18s;}
+  .ac:hover{background:#FAFAF7;}
+  .ac-img{width:100%;height:140px;object-fit:cover;display:block;}
+  .ac-body{padding:1rem;}
+  .ac-top{height:3px;background:var(--rule);}
+  .ac-ed{font-family:'IBM Plex Mono',monospace;font-size:.56rem;color:var(--muted);letter-spacing:.07em;margin-bottom:.5rem;}
+  .ac-h{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:.4rem;}
+  .ac-ex{font-family:'Source Serif 4',serif;font-size:.75rem;color:var(--muted);line-height:1.6;margin-bottom:.7rem;}
+  .ac-ft{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:var(--muted);}
+  .ac-arr{color:var(--flame);}
+
+  .num-wrap{max-width:1200px;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 1.5rem;}
+  .num-panel{background:var(--card);border-top:3px solid var(--ink);}
+  .num-head{padding:10px 1.5rem;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;}
+  .nt{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;}
+  .nd{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);}
+  .num-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);}
+  .nc{background:var(--card);padding:.9rem 1.1rem;}
+  .nm{font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem;}
+  .nv{font-family:'IBM Plex Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--ink);display:block;margin-bottom:.1rem;}
+  .nmv{font-family:'IBM Plex Mono',monospace;font-size:.58rem;}
+  .up{color:#0A5C30;} .dn{color:#8C2A08;}
+  .nn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;color:#AAA;margin-top:.1rem;}
+
+  footer{background:var(--ink);padding:1.4rem clamp(1rem,4vw,2rem);margin-top:1.5rem;}
+  .fi{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;}
+  .fb{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#F0EDE8;}
+  .fb em{color:var(--flame);font-style:normal;}
+  .fc{font-family:'IBM Plex Mono',monospace;font-size:.56rem;color:#666;text-align:right;}
+
+  @media(max-width:768px){
+    .hero-grid{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+  }
+</style>
+
+  <header class="mast">
+    <div class="mast-top">
+      <span class="brand">The Flame of <em>Fortune</em></span>
+      <div class="mast-right">
+        <span class="mast-date" id="live-date">Blantyre, Malawi</span>
+        <span class="mast-tag">Daily Intelligence</span>
+      </div>
+    </div>
+    <nav class="mast-nav">
+      <span class="mnav m-eco">Economy</span>
+      <span class="mnav m-inf">Infrastructure</span>
+      <span class="mnav m-afr">Africa</span>
+      <span class="mnav m-lif">Lifestyle</span>
+      <span class="mnav m-tec">Tech & AI</span>
+      <span class="mnav m-glo">Global</span>
+    </nav>
+  </header>
+
+  <div class="ticker">
+    <div class="tick"><span class="tl">USD/MWK</span><span class="tv">1,733.59</span><span class="td">▼</span></div>
+    <div class="tick"><span class="tl">BRENT</span><span class="tv">$109.20</span><span class="tu">▲ 1.8%</span></div>
+    <div class="tick"><span class="tl">MSE INDEX</span><span class="tv">30,412</span><span class="td">▼ 0.2%</span></div>
+    <div class="tick"><span class="tl">GOLD</span><span class="tv">$3,284</span><span class="tu">▲ 2.1%</span></div>
+    <div class="tick"><span class="tl">MWK INFL.</span><span class="tv">28.4%</span></div>
+  </div>
+
+  {latest && (
+    <section class="hero-wrap">
+      <div class="hero-grid">
+        <a href={`/newsletters/${latest.slug}`} class="hero-main">
+          {latest.data.coverImage && (
+            <img src={latest.data.coverImage} alt={latest.data.coverAlt || latest.data.title} class="hero-img" loading="eager" />
+          )}
+          <div class="hero-body">
+            <div class="hero-flag">
+              <span class={`pill ${pillClass(latest.data.tags[0])}`}>{latest.data.tags[0] || 'Today'}</span>
+              <span class="hero-src">Edition #{latest.data.edition} · {latest.data.date}</span>
+            </div>
+            <h1 class="hero-h">{latest.data.title}</h1>
+            <p class="hero-theme">{latest.data.theme}</p>
+            <p class="hero-ex">{latest.data.excerpt}</p>
+            <div class="hero-meta">
+              <span>JP · Blantyre</span>
+              <span>{latest.data.readTime}</span>
+              <span class="read-link">Read edition →</span>
+            </div>
+          </div>
+        </a>
+        <div class="sidebar">
+          {sorted.slice(1, 4).map((issue, i) => {
+            const classes = [
+              { sc:'sc-inf', cc:'cc-inf' },
+              { sc:'sc-glo', cc:'cc-glo' },
+              { sc:'sc-afr', cc:'cc-afr' },
+            ];
+            const c = classes[i] || classes[0];
+            return (
+              <a href={`/newsletters/${issue.slug}`} class={`sc ${c.sc}`}>
+                {issue.data.coverImage && (
+                  <img src={issue.data.coverImage} alt={issue.data.coverAlt || issue.data.title} class="sc-img" loading="lazy" />
+                )}
+                <div class={`sc-cat ${c.cc}`}>{issue.data.tags[0] || 'Edition'}</div>
+                <div class="sc-h">{issue.data.title}</div>
+                <div class="sc-ex">{issue.data.excerpt}</div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {archive.length > 0 && (
+    <section class="sec-wrap">
+      <span class="sec-label">All Editions</span>
+      <div class="arc-grid">
+        {archive.map(issue => (
+          <a href={`/newsletters/${issue.slug}`} class="ac">
+            {issue.data.coverImage && (
+              <img src={issue.data.coverImage} alt={issue.data.coverAlt || issue.data.title} class="ac-img" loading="lazy" />
+            )}
+            <div class="ac-body">
+              <div class="ac-top" style={`background:${accentColor(issue.data.tags[0])};`}></div>
+              <div class="ac-ed">#{issue.data.edition} · {issue.data.date}</div>
+              <div class="ac-h">{issue.data.title}</div>
+              <div class="ac-ex">{issue.data.excerpt}</div>
+              <div class="ac-ft"><span>{issue.data.readTime}</span><span class="ac-arr">→</span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="num-wrap">
+    <div class="num-panel">
+      <div class="num-head">
+        <span class="nt">Markets & Key Numbers</span>
+        <span class="nd" id="num-date">Today</span>
+      </div>
+      <div class="num-grid">
+        <div class="nc"><div class="nm">USD / MWK</div><span class="nv">1,733</span><span class="nmv dn">▼ thin</span><div class="nn">under 1 month import cover</div></div>
+        <div class="nc"><div class="nm">Brent Crude</div><span class="nv">$109</span><span class="nmv tu">▲ +50% YTD</span><div class="nn">largest shock since 2022</div></div>
+        <div class="nc"><div class="nm">Tobacco Avg</div><span class="nv">$2.13/kg</span><span class="nmv dn">▼ vs $2.30</span><div class="nn">96–100% rejection rate</div></div>
+        <div class="nc"><div class="nm">MWK Inflation</div><span class="nv">28.4%</span><span class="nmv dn">highest region</span><div class="nn">2025 annual avg</div></div>
+        <div class="nc"><div class="nm">Public Debt</div><span class="nv">86.4%</span><span class="nmv dn">of GDP</span><div class="nn">36pts above IMF threshold</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="fi">
+      <span class="fb">The Flame of <em>Fortune</em></span>
+      <div class="fc"><div>© {new Date().getFullYear()} Outreach Media Group · Blantyre, Malawi</div></div>
+    </div>
+  </footer>
+
+  <script>
+    const d = new Date();
+    const el = document.getElementById('live-date');
+    if(el) el.textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    const nd = document.getElementById('num-date');
+    if(nd) nd.textContent = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  </script>
+
+</BaseLayout>
