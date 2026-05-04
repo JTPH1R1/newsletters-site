@@ -1,0 +1,292 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import markets from '../data/markets.json';
+const exchangeRateKey = import.meta.env.PUBLIC_EXCHANGE_RATE_KEY || '';
+---
+
+<BaseLayout title="Markets & Key Numbers — Outreach Media Group" description="Live currency rates, commodities, African indices, and Malawi economic indicators.">
+<style>
+  :root{--page:#F7F4EF;--card:#fff;--ink:#1A1A1A;--muted:#6A6560;--rule:#E0DBD3;--flame:#D4521A;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--page);color:var(--ink);font-family:'IBM Plex Mono',monospace;}
+
+  nav{background:var(--card);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100;}
+  .ni{max-width:1100px;margin:0 auto;padding:.75rem clamp(1rem,4vw,2rem);display:flex;justify-content:space-between;align-items:center;}
+  .nb{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--flame);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;}
+  .nb:hover{text-decoration:underline;}
+  .nbrand{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--ink);}
+  .nbrand em{color:var(--flame);font-style:normal;}
+
+  .page-wrap{max-width:1100px;margin:0 auto;padding:2rem clamp(1rem,4vw,2rem);}
+
+  .page-head{margin-bottom:2rem;border-bottom:2px solid var(--ink);padding-bottom:1rem;}
+  .page-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--ink);}
+  .page-sub{font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem;}
+  .live-badge{display:inline-block;background:#1DB864;color:#fff;font-size:.5rem;letter-spacing:.1em;padding:2px 6px;text-transform:uppercase;margin-left:.6rem;vertical-align:middle;}
+  .last-updated{font-size:.55rem;color:var(--muted);margin-top:.4rem;}
+
+  .section{margin-bottom:2.5rem;}
+  .sec-head{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:.6rem 0;border-top:2px solid var(--ink);margin-bottom:1px;}
+
+  .grid{display:grid;gap:1px;background:var(--rule);}
+  .grid-4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+  .grid-2{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));}
+
+  .card{background:var(--card);padding:1.2rem 1.4rem;}
+  .card-label{font-size:.55rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+  .card-value{font-size:1.6rem;font-weight:700;color:var(--ink);display:block;margin-bottom:.2rem;font-family:'IBM Plex Mono',monospace;}
+  .card-change{font-size:.62rem;margin-bottom:.4rem;}
+  .card-note{font-size:.55rem;color:var(--muted);line-height:1.5;border-top:.5px solid var(--rule);padding-top:.5rem;margin-top:.4rem;}
+  .up{color:#1DB864;} .dn{color:#E84A20;} .neu{color:var(--muted);}
+
+  .live-card{border-top:3px solid #1DB864;}
+  .static-card{border-top:3px solid var(--flame);}
+  .slow-card{border-top:3px solid #2A7AE0;}
+
+  .legend{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+  .leg{font-size:.55rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;}
+  .leg-dot{width:10px;height:3px;display:inline-block;}
+  .leg-live{background:#1DB864;}
+  .leg-semi{background:var(--flame);}
+  .leg-slow{background:#2A7AE0;}
+
+  .data-note{background:var(--card);border:0.5px solid var(--rule);padding:1rem 1.4rem;font-size:.56rem;color:var(--muted);line-height:1.8;margin-top:2rem;}
+  .data-note strong{color:var(--ink);}
+
+  footer{background:var(--ink);padding:1.2rem clamp(1rem,4vw,2rem);margin-top:2rem;}
+  .fi{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;}
+  .fb{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:#F0EDE8;}
+  .fb em{color:var(--flame);font-style:normal;}
+  .fc{font-size:.55rem;color:#666;}
+</style>
+
+  <nav>
+    <div class="ni">
+      <a href="/" class="nb">← All Editions</a>
+      <span class="nbrand">OUTREACH <em>MEDIA GROUP</em></span>
+      <span style="font-size:.58rem;color:var(--muted);">Markets</span>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page-head">
+      <div class="page-title">Markets & Key Numbers</div>
+      <div class="page-sub">Malawi · Africa · Global <span class="live-badge">Live</span></div>
+      <div class="last-updated">Data updated: <span id="m-updated">{markets.lastUpdated}</span> · Currencies and BTC update on page load</div>
+    </div>
+
+    <div class="legend">
+      <div class="leg"><span class="leg-dot leg-live"></span> Live on page load</div>
+      <div class="leg"><span class="leg-dot leg-semi"></span> Updated with each newsletter</div>
+      <div class="leg"><span class="leg-dot leg-slow"></span> Updated when data changes</div>
+    </div>
+
+    <!-- LIVE CURRENCIES -->
+    <div class="section">
+      <div class="sec-head">Currencies</div>
+      <div class="grid grid-4">
+        <div class="card live-card">
+          <div class="card-label">USD / MWK</div>
+          <span class="card-value" id="m-usdmwk">—</span>
+          <div class="card-change neu" id="m-usdmwk-c">Loading...</div>
+          <div class="card-note">US Dollar to Malawian Kwacha. Affects fuel prices, imports, and foreign debt repayments.</div>
+        </div>
+        <div class="card live-card">
+          <div class="card-label">ZAR / MWK</div>
+          <span class="card-value" id="m-zarmwk">—</span>
+          <div class="card-change neu" id="m-zarmwk-c">Loading...</div>
+          <div class="card-note">South African Rand to Kwacha. SA is Malawi's largest trade partner — most imported goods pass through SA.</div>
+        </div>
+        <div class="card live-card">
+          <div class="card-label">GBP / MWK</div>
+          <span class="card-value" id="m-gbpmwk">—</span>
+          <div class="card-change neu" id="m-gbpmwk-c">Loading...</div>
+          <div class="card-note">British Pound to Kwacha. Relevant for remittances from the UK diaspora and bilateral aid flows.</div>
+        </div>
+        <div class="card live-card">
+          <div class="card-label">BTC / USD</div>
+          <span class="card-value" id="m-btc">—</span>
+          <div class="card-change neu" id="m-btc-c">Loading...</div>
+          <div class="card-note">Bitcoin in US Dollars. Tracked as a USD hedge by African investors managing currency risk.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMODITIES -->
+    <div class="section">
+      <div class="sec-head">Commodities</div>
+      <div class="grid grid-4">
+        <div class="card static-card">
+          <div class="card-label">{markets.commodities.brent.label}</div>
+          <span class="card-value">{markets.commodities.brent.value}</span>
+          <div class={`card-change ${markets.commodities.brent.dir==='up'?'up':'dn'}`}>{markets.commodities.brent.change}</div>
+          <div class="card-note">Global oil benchmark. Directly drives Malawi's fuel import costs and inflation. Up 50%+ since January 2026.</div>
+        </div>
+        <div class="card static-card">
+          <div class="card-label">{markets.commodities.gold.label}</div>
+          <span class="card-value">{markets.commodities.gold.value}</span>
+          <div class={`card-change ${markets.commodities.gold.dir==='up'?'up':'dn'}`}>{markets.commodities.gold.change}</div>
+          <div class="card-note">Safe-haven asset. Rising gold signals global investor anxiety. World Bank projects +42% average for 2026.</div>
+        </div>
+        <div class="card static-card">
+          <div class="card-label">{markets.commodities.copper.label}</div>
+          <span class="card-value">{markets.commodities.copper.value}</span>
+          <div class={`card-change ${markets.commodities.copper.dir==='up'?'up':'dn'}`}>{markets.commodities.copper.change}</div>
+          <div class="card-note">Industrial metal. Tracks global manufacturing activity. Critical export for Zambia — Malawi's neighbour.</div>
+        </div>
+        <div class="card static-card">
+          <div class="card-label">{markets.commodities.tobacco.label}</div>
+          <span class="card-value">{markets.commodities.tobacco.value}</span>
+          <div class="card-change dn">{markets.commodities.tobacco.change}</div>
+          <div class="card-note">Malawi's #1 export — 50% of foreign exchange. Price down from $2.30/kg. 96–100% rejection rates in early 2026 season.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AFRICAN INDICES -->
+    <div class="section">
+      <div class="sec-head">African Markets</div>
+      <div class="grid grid-4">
+        <div class="card static-card">
+          <div class="card-label">{markets.indices.mse.label}</div>
+          <span class="card-value">{markets.indices.mse.value}</span>
+          <div class={`card-change ${markets.indices.mse.dir==='up'?'up':'dn'}`}>{markets.indices.mse.change}</div>
+          <div class="card-note">Malawi Stock Exchange composite index. Small market — total capitalisation well under $1bn.</div>
+        </div>
+        <div class="card static-card">
+          <div class="card-label">{markets.indices.jse.label}</div>
+          <span class="card-value">{markets.indices.jse.value}</span>
+          <div class={`card-change ${markets.indices.jse.dir==='up'?'up':'dn'}`}>{markets.indices.jse.change}</div>
+          <div class="card-note">Johannesburg Stock Exchange Top 40. Africa's largest and most liquid market. Benchmark for regional investor sentiment.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MALAWI INDICATORS -->
+    <div class="section">
+      <div class="sec-head">Malawi Economic Indicators</div>
+      <div class="grid grid-4">
+        <div class="card slow-card">
+          <div class="card-label">{markets.malawi.inflation.label}</div>
+          <span class="card-value">{markets.malawi.inflation.value}</span>
+          <div class="card-note">{markets.malawi.inflation.note}</div>
+        </div>
+        <div class="card slow-card">
+          <div class="card-label">{markets.malawi.rbmRate.label}</div>
+          <span class="card-value">{markets.malawi.rbmRate.value}</span>
+          <div class="card-note">{markets.malawi.rbmRate.note}</div>
+        </div>
+        <div class="card slow-card">
+          <div class="card-label">{markets.malawi.forexReserves.label}</div>
+          <span class="card-value dn">{markets.malawi.forexReserves.value}</span>
+          <div class="card-note">{markets.malawi.forexReserves.note}</div>
+        </div>
+        <div class="card slow-card">
+          <div class="card-label">{markets.malawi.publicDebt.label}</div>
+          <span class="card-value dn">{markets.malawi.publicDebt.value}</span>
+          <div class="card-note">{markets.malawi.publicDebt.note}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL -->
+    <div class="section">
+      <div class="sec-head">Global Indicators</div>
+      <div class="grid grid-4">
+        <div class="card slow-card">
+          <div class="card-label">{markets.global.usFedRate.label}</div>
+          <span class="card-value">{markets.global.usFedRate.value}</span>
+          <div class="card-note">{markets.global.usFedRate.note}. Drives global borrowing costs. When the Fed holds high, capital stays in the US and away from emerging markets like Malawi.</div>
+        </div>
+        <div class="card slow-card">
+          <div class="card-label">{markets.global.oilShock.label}</div>
+          <span class="card-value dn">{markets.global.oilShock.value}</span>
+          <div class="card-note">{markets.global.oilShock.note}. World Bank's largest projected energy price increase since the 2022 Russia-Ukraine shock.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-note">
+      <strong>About this data.</strong> Currency rates (USD/MWK, ZAR/MWK, GBP/MWK) and Bitcoin prices update live every time this page loads via ExchangeRate-API and CoinGecko.
+      Commodity prices (Brent, Gold, Copper, Tobacco) are updated each time a new newsletter edition is published.
+      Malawi economic indicators (Inflation, RBM Rate, Forex Reserves, Public Debt) are updated when new official data is released by the Reserve Bank of Malawi, National Statistical Office, or IMF.
+      All figures are for informational purposes and should not be taken as financial advice.
+    </div>
+  </div>
+
+  <footer>
+    <div class="fi">
+      <span class="fb">OUTREACH <em>MEDIA GROUP</em></span>
+      <div class="fc">© {new Date().getFullYear()} Outreach Media Group · Blantyre, Malawi</div>
+    </div>
+  </footer>
+
+  <script define:vars={{ exchangeRateKey }}>
+    function fmt(n, dec=2){ return Number(n).toLocaleString('en-GB',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+
+    // BTC via CoinGecko — no key needed
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true')
+      .then(r=>r.json()).then(data=>{
+        const price = data?.bitcoin?.usd;
+        const change = data?.bitcoin?.usd_24h_change;
+        const v = document.getElementById('m-btc');
+        const c = document.getElementById('m-btc-c');
+        if(v && price) v.textContent = '$' + fmt(price, 0);
+        if(c && change !== undefined){
+          c.textContent = (change>=0?'▲ ':'▼ ') + Math.abs(change).toFixed(2) + '% (24h)';
+          c.className = 'card-change ' + (change>=0?'up':'dn');
+        }
+      }).catch(()=>{
+        const c = document.getElementById('m-btc-c');
+        if(c){ c.textContent = 'Unavailable'; c.className='card-change neu'; }
+      });
+
+    // Currencies via ExchangeRate-API
+    if(exchangeRateKey){
+      fetch(`https://v6.exchangerate-api.com/v6/${exchangeRateKey}/latest/USD`)
+        .then(r=>r.json()).then(data=>{
+          const rates = data?.conversion_rates;
+          if(!rates) return;
+          const mwk = rates.MWK, zar = rates.ZAR, gbp = rates.GBP;
+
+          const uv = document.getElementById('m-usdmwk');
+          const uc = document.getElementById('m-usdmwk-c');
+          if(uv && mwk){ uv.textContent = fmt(mwk); }
+          if(uc){ uc.textContent = 'Live rate'; uc.className='card-change neu'; }
+
+          const zv = document.getElementById('m-zarmwk');
+          const zc = document.getElementById('m-zarmwk-c');
+          if(zv && zar && mwk){ zv.textContent = fmt(mwk/zar); }
+          if(zc){ zc.textContent = 'Live rate'; zc.className='card-change neu'; }
+
+          const gv = document.getElementById('m-gbpmwk');
+          const gc = document.getElementById('m-gbpmwk-c');
+          if(gv && gbp && mwk){ gv.textContent = fmt(mwk/gbp); }
+          if(gc){ gc.textContent = 'Live rate'; gc.className='card-change neu'; }
+
+          // Also update ticker on homepage if both pages share context (they won't, but just in case)
+          const tu = document.getElementById('t-usdmwk');
+          const tz = document.getElementById('t-zarmwk');
+          const tg = document.getElementById('t-gbpmwk');
+          if(tu && mwk) tu.textContent = fmt(mwk);
+          if(tz && zar && mwk) tz.textContent = fmt(mwk/zar);
+          if(tg && gbp && mwk) tg.textContent = fmt(mwk/gbp);
+        }).catch(()=>{
+          ['m-usdmwk-c','m-zarmwk-c','m-gbpmwk-c'].forEach(id=>{
+            const el = document.getElementById(id);
+            if(el){ el.textContent = 'API key not configured'; el.className='card-change neu'; }
+          });
+        });
+    } else {
+      ['m-usdmwk-c','m-zarmwk-c','m-gbpmwk-c'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el){ el.textContent = 'Configure API key for live rates'; el.className='card-change neu'; }
+      });
+    }
+
+    // Show today's date
+    const upd = document.getElementById('m-updated');
+    if(upd) upd.textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  </script>
+
+</BaseLayout>

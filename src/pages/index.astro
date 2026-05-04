@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import markets from '../data/markets.json';
+const exchangeRateKey = import.meta.env.PUBLIC_EXCHANGE_RATE_KEY || '';
 
 const all = await getCollection('newsletters');
 const sorted = all.sort((a, b) => b.data.edition - a.data.edition);
@@ -49,8 +51,14 @@ function accentColor(tag: string = '') {
   .m-afr{color:#5B1A94;background:#F4EEFD;} .m-lif{color:#A0300A;background:#FEF1EC;}
   .m-tec{color:#083E7C;background:#E8F2FC;} .m-glo{color:#7A4A08;background:#FDF6E8;}
 
-  .ticker{background:#1A1A1A;padding:5px clamp(1rem,4vw,2rem);display:flex;gap:2rem;overflow-x:auto;}
-  .tick{font-family:'IBM Plex Mono',monospace;font-size:.62rem;display:flex;gap:.45rem;align-items:center;white-space:nowrap;}
+  .ticker{background:#1A1A1A;padding:5px 0;overflow:hidden;display:flex;align-items:center;}
+  .ticker-label{font-family:'IBM Plex Mono',monospace;font-size:.55rem;font-weight:700;letter-spacing:.1em;color:var(--flame);text-decoration:none;white-space:nowrap;padding:0 1rem;border-right:1px solid #333;flex-shrink:0;}
+  .ticker-label:hover{color:#fff;}
+  .ticker-track{display:flex;gap:2.5rem;width:max-content;animation:ticker-scroll 50s linear infinite;}
+  .ticker-track:hover{animation-play-state:paused;}
+  @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .tick{font-family:'IBM Plex Mono',monospace;font-size:.62rem;display:flex;gap:.45rem;align-items:center;white-space:nowrap;padding:0 .5rem;}
+  .tick-sep{color:#333;font-size:.5rem;}
   .tl{color:#666;} .tv{color:#F0EDE8;font-weight:500;} .tu{color:#1DB864;} .td{color:#E84A20;}
 
   .pill{font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;display:inline-block;}
@@ -143,11 +151,37 @@ function accentColor(tag: string = '') {
   </header>
 
   <div class="ticker">
-    <div class="tick"><span class="tl">USD/MWK</span><span class="tv">1,733.59</span><span class="td">▼</span></div>
-    <div class="tick"><span class="tl">BRENT</span><span class="tv">$109.20</span><span class="tu">▲ 1.8%</span></div>
-    <div class="tick"><span class="tl">MSE INDEX</span><span class="tv">30,412</span><span class="td">▼ 0.2%</span></div>
-    <div class="tick"><span class="tl">GOLD</span><span class="tv">$3,284</span><span class="tu">▲ 2.1%</span></div>
-    <div class="tick"><span class="tl">MWK INFL.</span><span class="tv">28.4%</span></div>
+    <a href="/markets" class="ticker-label">LIVE MARKETS ›</a>
+    <div class="ticker-track" id="ticker-track">
+      <div class="tick"><span class="tl">USD/MWK</span><span class="tv" id="t-usdmwk">—</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">ZAR/MWK</span><span class="tv" id="t-zarmwk">—</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">GBP/MWK</span><span class="tv" id="t-gbpmwk">—</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">BTC/USD</span><span class="tv" id="t-btc">—</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.commodities.brent.label}</span><span class="tv">{markets.commodities.brent.value}</span><span class={markets.commodities.brent.dir==='up'?'tu':'td'}>{markets.commodities.brent.change}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.commodities.gold.label}</span><span class="tv">{markets.commodities.gold.value}</span><span class={markets.commodities.gold.dir==='up'?'tu':'td'}>{markets.commodities.gold.change}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.commodities.copper.label}</span><span class="tv">{markets.commodities.copper.value}</span><span class={markets.commodities.copper.dir==='up'?'tu':'td'}>{markets.commodities.copper.change}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.indices.mse.label}</span><span class="tv">{markets.indices.mse.value}</span><span class={markets.indices.mse.dir==='up'?'tu':'td'}>{markets.indices.mse.change}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.indices.jse.label}</span><span class="tv">{markets.indices.jse.value}</span><span class={markets.indices.jse.dir==='up'?'tu':'td'}>{markets.indices.jse.change}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.commodities.tobacco.label}</span><span class="tv">{markets.commodities.tobacco.value}</span><span class="td">{markets.commodities.tobacco.change}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.malawi.inflation.label}</span><span class="tv">{markets.malawi.inflation.value}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.malawi.rbmRate.label}</span><span class="tv">{markets.malawi.rbmRate.value}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.global.usFedRate.label}</span><span class="tv">{markets.global.usFedRate.value}</span></div>
+      <span class="tick-sep">◆</span>
+      <div class="tick"><span class="tl">{markets.malawi.forexReserves.label}</span><span class="tv">{markets.malawi.forexReserves.value}</span><span class="td">▼</span></div>
+      <span class="tick-sep">◆</span>
+    </div>
   </div>
 
   {latest && (
@@ -241,12 +275,55 @@ function accentColor(tag: string = '') {
     </div>
   </footer>
 
-  <script>
+  <script define:vars={{ exchangeRateKey }}>
+    // Date display
     const d = new Date();
     const el = document.getElementById('live-date');
     if(el) el.textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
     const nd = document.getElementById('num-date');
     if(nd) nd.textContent = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+    function fmt(n, decimals=2){ return Number(n).toLocaleString('en-GB',{minimumFractionDigits:decimals,maximumFractionDigits:decimals}); }
+
+    // Live BTC — CoinGecko, no key needed
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true')
+      .then(r=>r.json()).then(data=>{
+        const price = data?.bitcoin?.usd;
+        const change = data?.bitcoin?.usd_24h_change;
+        const el = document.getElementById('t-btc');
+        if(el && price){
+          el.textContent = '$' + fmt(price, 0);
+          const next = el.nextElementSibling;
+          if(next && change !== undefined){
+            next.textContent = (change>=0?'▲':'▼') + ' ' + Math.abs(change).toFixed(1)+'%';
+            next.className = change>=0 ? 'tu' : 'td';
+          }
+        }
+      }).catch(()=>{});
+
+    // Live currencies — ExchangeRate-API (needs key in Netlify env vars)
+    if(exchangeRateKey){
+      fetch(`https://v6.exchangerate-api.com/v6/${exchangeRateKey}/latest/USD`)
+        .then(r=>r.json()).then(data=>{
+          const rates = data?.conversion_rates;
+          if(!rates) return;
+          const mwk = rates.MWK, zar = rates.ZAR, gbp = rates.GBP;
+          const usdmwk = document.getElementById('t-usdmwk');
+          const zarmwk = document.getElementById('t-zarmwk');
+          const gbpmwk = document.getElementById('t-gbpmwk');
+          if(usdmwk && mwk) usdmwk.textContent = fmt(mwk, 2);
+          if(zarmwk && zar && mwk) zarmwk.textContent = fmt(mwk/zar, 2);
+          if(gbpmwk && gbp && mwk) gbpmwk.textContent = fmt(mwk/gbp, 2);
+        }).catch(()=>{});
+    }
+
+    // Duplicate ticker for seamless loop after live data loads
+    const track = document.getElementById('ticker-track');
+    if(track){
+      setTimeout(()=>{
+        track.innerHTML = track.innerHTML + track.innerHTML;
+      }, 1500);
+    }
   </script>
 
 </BaseLayout>
