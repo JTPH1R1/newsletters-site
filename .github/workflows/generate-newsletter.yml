@@ -1,10 +1,6 @@
 name: 🔥 Generate Daily Newsletter
 
 on:
-  push:
-    branches: [main]
-  schedule:
-    - cron: '0 4 * * *'
   workflow_dispatch:
 
 permissions:
@@ -43,13 +39,3 @@ jobs:
           git add src/content/newsletters/
           git commit -m "🔥 Newsletter $(date +'%Y-%m-%d') — auto-generated"
           git push
-      - run: npm run build
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: './dist'
-          production-branch: main
-          production-deploy: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
