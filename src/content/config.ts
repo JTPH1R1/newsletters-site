@@ -15,6 +15,8 @@ const newsletters = defineCollection({
     coverImage: z.string().optional(),
     coverAlt: z.string().optional(),
     coverCredit: z.string().optional(),
+    advertImage: z.string().optional(),
+    advertLink: z.string().optional(),
     numbers: z.array(z.object({
       label: z.string(),
       value: z.string(),

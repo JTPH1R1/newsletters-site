@@ -43,7 +43,8 @@ function accentColor(tag: string = '') {
   .mast-date{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.07em;display:block;}
   .mast-tag{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--flame);letter-spacing:.14em;text-transform:uppercase;}
   .mast-nav{max-width:1200px;margin:0 auto;padding:0 clamp(1rem,4vw,2rem);display:flex;gap:0;overflow-x:auto;}
-  .mnav{font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-right:1px solid var(--rule);white-space:nowrap;}
+  .mnav{font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-right:1px solid var(--rule);white-space:nowrap;text-decoration:none;cursor:pointer;}
+  .mnav:hover{opacity:.75;}
   .m-eco{color:#0F6B38;background:#F0FAF4;} .m-inf{color:#0C4A8A;background:#EDF4FC;}
   .m-afr{color:#5B1A94;background:#F4EEFD;} .m-lif{color:#A0300A;background:#FEF1EC;}
   .m-tec{color:#083E7C;background:#E8F2FC;} .m-glo{color:#7A4A08;background:#FDF6E8;}
@@ -125,19 +126,19 @@ function accentColor(tag: string = '') {
 
   <header class="mast">
     <div class="mast-top">
-      <span class="brand">The Flame of <em>Fortune</em></span>
+      <span class="brand">OUTREACH <em>MEDIA GROUP</em></span>
       <div class="mast-right">
         <span class="mast-date" id="live-date">Blantyre, Malawi</span>
         <span class="mast-tag">Daily Intelligence</span>
       </div>
     </div>
     <nav class="mast-nav">
-      <span class="mnav m-eco">Economy</span>
-      <span class="mnav m-inf">Infrastructure</span>
-      <span class="mnav m-afr">Africa</span>
-      <span class="mnav m-lif">Lifestyle</span>
-      <span class="mnav m-tec">Tech & AI</span>
-      <span class="mnav m-glo">Global</span>
+      <a href="#editions" class="mnav m-eco">Economy</a>
+      <a href="#editions" class="mnav m-inf">Infrastructure</a>
+      <a href="#editions" class="mnav m-afr">Africa</a>
+      <a href="#editions" class="mnav m-lif">Lifestyle</a>
+      <a href="#editions" class="mnav m-tec">Tech & AI</a>
+      <a href="#editions" class="mnav m-glo">Global</a>
     </nav>
   </header>
 
@@ -150,7 +151,7 @@ function accentColor(tag: string = '') {
   </div>
 
   {latest && (
-    <section class="hero-wrap">
+    <section class="hero-wrap" id="editions">
       <div class="hero-grid">
         <a href={`/newsletters/${latest.slug}`} class="hero-main">
           {latest.data.coverImage && (
@@ -171,7 +172,7 @@ function accentColor(tag: string = '') {
             </div>
           </div>
         </a>
-        <div class="sidebar">
+        {sorted.length > 1 && <div class="sidebar">
           {sorted.slice(1, 4).map((issue, i) => {
             const classes = [
               { sc:'sc-inf', cc:'cc-inf' },
@@ -190,13 +191,13 @@ function accentColor(tag: string = '') {
               </a>
             );
           })}
-        </div>
+        </div>}
       </div>
     </section>
   )}
 
   {archive.length > 0 && (
-    <section class="sec-wrap">
+    <section class="sec-wrap" id="editions">
       <span class="sec-label">All Editions</span>
       <div class="arc-grid">
         {archive.map(issue => (
@@ -235,7 +236,7 @@ function accentColor(tag: string = '') {
 
   <footer>
     <div class="fi">
-      <span class="fb">The Flame of <em>Fortune</em></span>
+      <span class="fb">OUTREACH <em>MEDIA GROUP</em></span>
       <div class="fc"><div>© {new Date().getFullYear()} Outreach Media Group · Blantyre, Malawi</div></div>
     </div>
   </footer>

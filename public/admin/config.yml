@@ -1,0 +1,60 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: newsletters
+    label: Newsletters
+    label_singular: Newsletter
+    folder: src/content/newsletters
+    create: true
+    slug: "{{dateSlug}}"
+    fields:
+      - { label: "Title", name: title, widget: string, hint: "The main headline" }
+      - { label: "Theme Line", name: theme, widget: string, hint: "The italic through-line sentence under the headline" }
+      - { label: "Excerpt", name: excerpt, widget: text, hint: "1-2 sentence summary shown on the homepage" }
+      - { label: "Date (Display)", name: date, widget: string, hint: "e.g. Tuesday, 28 April 2026" }
+      - { label: "Date Slug", name: dateSlug, widget: string, hint: "e.g. 2026-04-28 — must match the filename" }
+      - { label: "Edition Number", name: edition, widget: number }
+      - { label: "Read Time", name: readTime, widget: string, default: "7 min read" }
+      - { label: "Today's Question", name: question, widget: text, hint: "The closing conversation prompt for readers" }
+
+      - label: "Header Photo"
+        name: coverImage
+        widget: image
+        required: false
+        hint: "Upload the main header image shown at the top of the article and on the homepage"
+
+      - { label: "Header Photo Alt Text", name: coverAlt, widget: string, required: false }
+      - { label: "Header Photo Credit", name: coverCredit, widget: string, required: false, hint: "e.g. Nyasa Times" }
+
+      - label: "Advert Image"
+        name: advertImage
+        widget: image
+        required: false
+        hint: "Upload the advert banner — displayed in the middle of the article"
+
+      - { label: "Advert Link URL", name: advertLink, widget: string, required: false, hint: "Optional — where clicking the advert takes the reader" }
+
+      - label: "Tags"
+        name: tags
+        widget: list
+        default: []
+        hint: "e.g. Economy, Infrastructure, Tech & AI"
+
+      - label: "Key Numbers"
+        name: numbers
+        widget: list
+        required: false
+        fields:
+          - { label: "Label", name: label, widget: string, hint: "e.g. USD/MWK" }
+          - { label: "Value", name: value, widget: string, hint: "e.g. 1,733.59" }
+          - { label: "Meaning", name: meaning, widget: text, hint: "One-line implication" }
+
+      - label: "Content"
+        name: body
+        widget: markdown
+        hint: "The full newsletter body"

@@ -13,7 +13,8 @@ const { Content } = await entry.render();
 const {
   title, theme, excerpt, date, edition, readTime,
   question, numbers, tags,
-  coverImage, coverAlt, coverCredit
+  coverImage, coverAlt, coverCredit,
+  advertImage, advertLink
 } = entry.data;
 const pageUrl = `https://readomg.netlify.app/newsletters/${entry.slug}`;
 
@@ -188,6 +189,12 @@ const topColor = accentColor(tags[0]);
   .share-btn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink);background:var(--page);border:0.5px solid var(--rule);padding:5px 12px;cursor:pointer;text-decoration:none;transition:background .15s;}
   .share-btn:hover{background:#EDE9E2;}
 
+  /* Advert block */
+  .advert-wrap{margin:2.5rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1rem 0;}
+  .advert-label{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:#AAA;text-align:center;margin-bottom:.6rem;}
+  .advert-img{width:100%;max-height:200px;object-fit:cover;display:block;}
+  .advert-link{display:block;} .advert-link:hover{opacity:.9;}
+
   /* Legal notice */
   .img-notice{background:var(--page);border-top:0.5px solid var(--rule);padding:.7rem 2rem;font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:#AAA;line-height:1.6;}
 
@@ -215,7 +222,7 @@ const topColor = accentColor(tags[0]);
   <nav>
     <div class="ni">
       <a href="/" class="nb">← All editions</a>
-      <span class="nbrand">The Flame of <em>Fortune</em></span>
+      <span class="nbrand">OUTREACH <em>MEDIA GROUP</em></span>
       <span class="ned">#{edition}</span>
     </div>
   </nav>
@@ -250,6 +257,19 @@ const topColor = accentColor(tags[0]);
 
       <article class="art-body">
         <Content />
+
+        {advertImage && (
+          <div class="advert-wrap">
+            <div class="advert-label">Advertisement</div>
+            {advertLink ? (
+              <a href={advertLink} class="advert-link" target="_blank" rel="noopener sponsored">
+                <img src={advertImage} alt="Advertisement" class="advert-img" loading="lazy" />
+              </a>
+            ) : (
+              <img src={advertImage} alt="Advertisement" class="advert-img" loading="lazy" />
+            )}
+          </div>
+        )}
 
         {numbers.length > 0 && (
           <div class="num-desk">
@@ -309,7 +329,7 @@ const topColor = accentColor(tags[0]);
 
   <footer>
     <div class="fi">
-      <span class="fb">The Flame of <em>Fortune</em></span>
+      <span class="fb">OUTREACH <em>MEDIA GROUP</em></span>
       <div class="fc"><div>© {new Date().getFullYear()} Outreach Media Group · Blantyre, Malawi</div></div>
     </div>
   </footer>
