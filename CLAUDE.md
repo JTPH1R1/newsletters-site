@@ -2,7 +2,7 @@
 
 ## What This Newsletter Is
 
-The Flame of Fortune is a daily intelligence newsletter published by Outreach Media Group, based in Blantyre, Malawi. It serves ambitious professionals, investors, entrepreneurs, and business owners in Malawi and across Africa.
+Outreach Media Group publishes a daily intelligence newsletter from Blantyre, Malawi. It serves ambitious professionals, investors, entrepreneurs, and business owners in Malawi and across Africa.
 
 **The core mission:** Take complicated financial, economic, and business stories and explain them in plain English. Break down the jargon. Expand the small print. Make it useful for someone who did not study economics but needs to understand what is happening and why it affects them.
 
@@ -15,7 +15,7 @@ The Flame of Fortune is a daily intelligence newsletter published by Outreach Me
 3. **Plain English always.** Define every piece of jargon. If you use a term like "IPO", "monetary policy", "fiscal deficit", or "cross-listing" — explain it immediately in simple language as if the reader has never heard it before.
 4. **Sources listed at the bottom.** Every edition ends with a `### Sources` section listing all sources as clickable links so readers can fact-check.
 5. **Malawi/Africa lens.** Always connect the story back to what it means for Malawi specifically, or for African professionals in general. Even a global story must land locally.
-6. **No political content.** No political parties, elections, or political figures.
+6. **Strictly no political content.** This is an absolute rule with no exceptions. No political parties. No elections. No politicians or political figures by name. No commentary on government leadership or opposition. No policy analysis that names a ruling party or politician. Stories about government economic data (inflation, debt, reserves) are fine — frame them around the numbers and institutions, never around politicians. If a story cannot be told without naming a political figure or party, do not write it.
 
 ---
 
@@ -122,8 +122,14 @@ When the user asks for a newsletter on a topic:
 Check the existing files in `src/content/newsletters/` to find the highest edition number, then increment by 1.
 
 Current editions:
-- Edition 1: 2026-04-28.md
-- Edition 2: 2026-05-05.md (Dangote IPO)
+- Edition 1: 2026-04-28.md (Malawi tobacco season, airport, oil shock)
+- Edition 2: 2026-05-05.md (Dangote $40bn IPO)
+- Edition 3: 2026-05-05-vision2020.md (Malawi vs Rwanda Vision 2020)
+- Edition 4: 2026-05-05-china-tariffs.md (China zero tariffs for Africa)
+- Edition 5: 2026-05-05-africa-growth.md (Africa's fastest-growing economies)
+- Edition 6: 2026-05-05-sumitomo.md (Sumitomo exits Ambatovy nickel mine)
+- Edition 7: 2026-05-05-dangote-ethiopia.md (Dangote eyes Ethiopia stock exchange)
+- Edition 8: next to be written
 
 ---
 
