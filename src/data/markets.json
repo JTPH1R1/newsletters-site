@@ -1,23 +1,23 @@
 {
   "lastUpdated": "2026-05-05",
   "commodities": {
-    "brent":   { "label": "BRENT CRUDE",   "value": "$109.20",   "change": "+1.8%",       "dir": "up"   },
-    "gold":    { "label": "GOLD",           "value": "$3,284",    "change": "+2.1%",       "dir": "up"   },
-    "copper":  { "label": "COPPER",         "value": "$9,841/t",  "change": "+0.9%",       "dir": "up"   },
-    "tobacco": { "label": "TOBACCO AVG",    "value": "$2.13/kg",  "change": "▼ vs $2.30", "dir": "down" }
+    "brent":   { "label": "BRENT CRUDE",   "value": "$110.24",    "change": "+50% YTD",   "dir": "up"   },
+    "gold":    { "label": "GOLD",           "value": "$4,564/oz",  "change": "+37.5% YTD", "dir": "up"   },
+    "copper":  { "label": "COPPER",         "value": "$13,095/t",  "change": "+27.8% YTD", "dir": "up"   },
+    "tobacco": { "label": "TOBACCO AVG",    "value": "$2.13/kg",   "change": "▼ vs $2.30", "dir": "down" }
   },
   "indices": {
-    "mse": { "label": "MSE INDEX",  "value": "30,412", "change": "-0.2%", "dir": "down" },
-    "jse": { "label": "JSE TOP 40", "value": "78,340", "change": "+0.6%", "dir": "up"   }
+    "mse": { "label": "MASI",       "value": "527,345", "change": "-11.8% YTD", "dir": "down" },
+    "jse": { "label": "JSE TOP 40", "value": "108,814", "change": "Live",        "dir": "up"   }
   },
   "malawi": {
-    "inflation":     { "label": "MWK INFLATION",   "value": "24.3%",      "note": "Q1 2026 — down from 27.7%" },
-    "rbmRate":       { "label": "RBM POLICY RATE", "value": "24.0%",      "note": "Held — May 2026 MPC" },
-    "forexReserves": { "label": "FOREX RESERVES",  "value": "<1 month",   "note": "Import cover — critically low" },
-    "publicDebt":    { "label": "PUBLIC DEBT",      "value": "86.4%",      "note": "of GDP — 36pts above IMF threshold" }
+    "inflation":     { "label": "MWK INFLATION",   "value": "24.1%",     "note": "Feb 2026 — lowest since July 2022" },
+    "rbmRate":       { "label": "RBM POLICY RATE", "value": "24.0%",     "note": "Held — May 2026 MPC" },
+    "forexReserves": { "label": "FOREX RESERVES",  "value": "<1 month",  "note": "Import cover — critically low" },
+    "publicDebt":    { "label": "PUBLIC DEBT",      "value": "86.9%",     "note": "of GDP — 43% of domestic revenue goes to debt interest alone" }
   },
   "global": {
-    "usFedRate": { "label": "US FED RATE",      "value": "4.25%",  "note": "FOMC May 2026 — held" },
-    "oilShock":  { "label": "ENERGY PRICES",    "value": "+24%",   "note": "World Bank 2026 projection" }
+    "usFedRate": { "label": "US FED RATE",   "value": "3.5–3.75%", "note": "Held — FOMC May 2026. Markets pricing one cut max in 2026." },
+    "oilShock":  { "label": "ENERGY PRICES", "value": "+24%",      "note": "World Bank 2026 projection — largest shock since 2022" }
   }
 }

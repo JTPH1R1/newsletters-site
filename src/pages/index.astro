@@ -30,7 +30,7 @@ function accentColor(tag: string = '') {
 }
 ---
 
-<BaseLayout title="The Flame of Fortune — Daily Intelligence">
+<BaseLayout title="Outreach Media Group — Daily Intelligence">
 <style>
   :root{--page:#F7F4EF;--card:#fff;--ink:#1A1A1A;--muted:#6A6560;--rule:#E0DBD3;--flame:#D4521A;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -147,6 +147,7 @@ function accentColor(tag: string = '') {
       <a href="#editions" class="mnav m-lif">Lifestyle</a>
       <a href="#editions" class="mnav m-tec">Tech & AI</a>
       <a href="#editions" class="mnav m-glo">Global</a>
+      <a href="/markets" class="mnav" style="color:var(--flame);background:#FEF3EE;margin-left:auto;">Markets & Figures ↗</a>
     </nav>
   </header>
 
@@ -256,14 +257,17 @@ function accentColor(tag: string = '') {
     <div class="num-panel">
       <div class="num-head">
         <span class="nt">Markets & Key Numbers</span>
-        <span class="nd" id="num-date">Today</span>
+        <div style="display:flex;align-items:center;gap:1.2rem;">
+          <span class="nd" id="num-date">Today</span>
+          <a href="/markets" style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:var(--flame);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;">View all ↗</a>
+        </div>
       </div>
       <div class="num-grid">
-        <div class="nc"><div class="nm">USD / MWK</div><span class="nv">1,733</span><span class="nmv dn">▼ thin</span><div class="nn">under 1 month import cover</div></div>
-        <div class="nc"><div class="nm">Brent Crude</div><span class="nv">$109</span><span class="nmv tu">▲ +50% YTD</span><div class="nn">largest shock since 2022</div></div>
-        <div class="nc"><div class="nm">Tobacco Avg</div><span class="nv">$2.13/kg</span><span class="nmv dn">▼ vs $2.30</span><div class="nn">96–100% rejection rate</div></div>
-        <div class="nc"><div class="nm">MWK Inflation</div><span class="nv">28.4%</span><span class="nmv dn">highest region</span><div class="nn">2025 annual avg</div></div>
-        <div class="nc"><div class="nm">Public Debt</div><span class="nv">86.4%</span><span class="nmv dn">of GDP</span><div class="nn">36pts above IMF threshold</div></div>
+        <div class="nc"><div class="nm">USD / MWK</div><span class="nv">1,734</span><span class="nmv dn">▼ thin</span><div class="nn">under 1 month import cover</div></div>
+        <div class="nc"><div class="nm">Brent Crude</div><span class="nv">$110</span><span class="nmv tu">▲ +50% YTD</span><div class="nn">Iran-Hormuz conflict driving surge</div></div>
+        <div class="nc"><div class="nm">Gold</div><span class="nv">$4,564</span><span class="nmv tu">▲ +37.5% YTD</span><div class="nn">Safe-haven demand at record levels</div></div>
+        <div class="nc"><div class="nm">MWK Inflation</div><span class="nv">24.1%</span><span class="nmv dn">▼ easing</span><div class="nn">Lowest since July 2022</div></div>
+        <div class="nc"><div class="nm">Public Debt</div><span class="nv">86.9%</span><span class="nmv dn">of GDP</span><div class="nn">43% of revenue goes to debt interest</div></div>
       </div>
     </div>
   </section>
